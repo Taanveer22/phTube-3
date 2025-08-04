@@ -43,18 +43,24 @@ const showVideosData = (data) => {
     const divCard = document.createElement("div");
     divCard.classList = "card bg-base-100 shadow-sm";
     divCard.innerHTML = `
-          <figure>
-                <img class="h-48 w-full object-cover" src="${element.thumbnail}" />
+          <figure class="h-52">
+                <img class="h-full w-full object-cover" 
+                      src="${element.thumbnail}" 
+                />
           </figure>
           <div class="flex gap-2 mt-4">
               <img class="w-10 h-10 object-cover rounded-full" 
                   src="${element.authors[0].profile_picture}"
               />
               <div class="space-y-2">
-                  <h2 class="card-title">${element.title}</h2>
+                  <h2 class="font-bold">${element.title}</h2>
                   <div class="flex gap-2 space-y-2">
                       <p>${element.authors[0].profile_name}</p>
-                      <span>${element.authors[0].verified}<span>
+                      ${
+                        element.authors[0].verified === true
+                          ? `<img class="w-5 h-5" src="../assets/verified-badge.png"/>`
+                          : ``
+                      }
                   </div
                   <h4>${element.others.views}</h4>
               </div>
