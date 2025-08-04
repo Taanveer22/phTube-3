@@ -10,7 +10,18 @@ const loadCategories = () => {
 
 // showCategoriesData
 const showCategoriesData = (data) => {
-  console.log(data);
+  // console.log(data);
+  const categoryBtnContainer = document.getElementById(
+    "category-btn-container"
+  );
+  data.forEach((item) => {
+    console.log(item);
+    // create dynamic btn
+    const btn = document.createElement("button");
+    btn.classList = "btn";
+    btn.innerText = item.category;
+    categoryBtnContainer.append(btn);
+  });
 };
 
 // final function invocation
