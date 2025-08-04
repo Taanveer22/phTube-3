@@ -47,7 +47,13 @@ const showVideosData = (data) => {
                 <img class="h-full w-full object-cover" 
                       src="${element.thumbnail}" 
                 />
-                <span class="absolute right-2 bottom-2 bg-black text-white p-2">${element.others.posted_date}</span>
+               ${
+                 element.others.posted_date.length === 0
+                   ? ``
+                   : ` <span class="absolute right-2 bottom-2 bg-black text-white ">${getTimeString(
+                       element.others.posted_date
+                     )}</span>`
+               }
           </figure>
           <div class="flex gap-2 mt-4">
               <img class="w-10 h-10 object-cover rounded-full" 
@@ -70,6 +76,17 @@ const showVideosData = (data) => {
     videoContainer.append(divCard);
   });
 };
+
+// 3rd : get time utility function
+function getTimeString(time) {
+  // console.log(time);
+  let remainingSeconds = time % 86400;
+  let days = parseInt(time / 86400);
+  let hours = parseInt(time / 3600);
+  let minutes = parseInt(remainingSeconds / 60);
+  remainingSeconds = parseInt(remainingSeconds % 60);
+  return `${days} days ${hours} hours ${minutes} minutes ${remainingSeconds} seconds ago`;
+}
 
 // final function invocation
 loadCategories();
