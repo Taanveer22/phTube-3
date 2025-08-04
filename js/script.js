@@ -43,10 +43,11 @@ const showVideosData = (data) => {
     const divCard = document.createElement("div");
     divCard.classList = "card bg-base-100 shadow-sm";
     divCard.innerHTML = `
-          <figure class="h-52">
+          <figure class="h-52 relative">
                 <img class="h-full w-full object-cover" 
                       src="${element.thumbnail}" 
                 />
+                <span class="absolute right-2 bottom-2 bg-black text-white p-2">${element.others.posted_date}</span>
           </figure>
           <div class="flex gap-2 mt-4">
               <img class="w-10 h-10 object-cover rounded-full" 
