@@ -16,7 +16,9 @@
     <header class="w-11/12 mx-auto">
       <!-- navbar start here-------------------------------------- -->
       <section class="border-b-2 border-gray-400">
-        <nav class="flex gap-5 flex-col sm:flex-row justify-between items-center my-8">
+        <nav
+          class="flex gap-5 flex-col sm:flex-row justify-between items-center my-8"
+        >
           <div class="logo">
             <img src="./assets/Logo.png" alt="" />
           </div>
@@ -60,6 +62,20 @@
         class="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
       ></section>
     </main>
+
+    <!-- show the modal by id.click() by dom -->
+    <button id="modal-btn" class="btn hidden">open modal</button>
+    <!-- Open the modal using ID.showModal() method by daisy ui-->
+    <dialog id="customModal" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box">
+        <div id="modal-content"></div>
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn btn-error">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
     <script src="./js/script.js"></script>
   </body>
 </html>

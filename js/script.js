@@ -30,7 +30,17 @@ const loadVideosByCatId = (catId) => {
     });
 };
 
-//1st: showCategoriesData========================================
+// 4th : loadModalDetails ============================================
+const loadModalDetails = async (videoId) => {
+  // console.log(videoId);
+  const res = await fetch(
+    `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`
+  );
+  const data = await res.json();
+  showModalsDetailsData(data.video);
+};
+
+//1st++ : showCategoriesData========================================
 const showCategoriesData = (data) => {
   // console.log(data);
   const categoryBtnContainer = document.getElementById(
@@ -54,7 +64,7 @@ const showCategoriesData = (data) => {
   });
 };
 
-// 2nd : showVideosData========================================
+// 2nd++ : showVideosData========================================
 const showVideosData = (data) => {
   // console.log(data);
   const videoContainer = document.getElementById("video-container");
@@ -62,10 +72,10 @@ const showVideosData = (data) => {
   if (data.length === 0) {
     videoContainer.classList.remove("grid");
     videoContainer.innerHTML = ` 
-        <div class="min-h-[500px] flex flex-col gap-10 
+        <div class = "min-h-[500px] flex flex-col gap-10 
                     justify-center items-center bg-gray-300">
-            <img src="../assets/Icon.png" class="bg-blue-300" />
-            <h3 class="bg-green-300 text-2xl font-bold">
+            <img src = "../assets/Icon.png" class="bg-blue-300" />
+            <h3 class = "bg-green-300 text-2xl font-bold">
                 oops!! sorry ... no content here
             </h3>
         </div>
@@ -79,41 +89,62 @@ const showVideosData = (data) => {
     const divCard = document.createElement("div");
     divCard.classList = "card bg-base-100 shadow-sm";
     divCard.innerHTML = `
-          <figure class="h-52 relative">
-                <img class="h-full w-full object-cover" 
-                      src="${element.thumbnail}" 
+          <figure class = "h-52 relative">
+                <img class = "h-full w-full object-cover" 
+                      src = "${element.thumbnail}" 
                 />
                ${
                  element.others.posted_date.length === 0
                    ? ``
-                   : ` <span class="absolute right-2 bottom-2 bg-black text-white text-xs p-1">${getTimeString(
+                   : ` <span class = "absolute right-2 bottom-2 bg-black text-white text-xs p-1">${getTimeString(
                        element.others.posted_date
                      )}</span>`
                }
           </figure>
-          <div class="flex gap-2 mt-4">
-              <img class="w-10 h-10 object-cover rounded-full" 
-                  src="${element.authors[0].profile_picture}"
+          <div class = "flex gap-2 mt-4">
+              <img class = "w-10 h-10 object-cover rounded-full" 
+                  src = "${element.authors[0].profile_picture}"
               />
-              <div class="space-y-2">
-                  <h2 class="font-bold">${element.title}</h2>
-                  <div class="flex gap-2 space-y-2">
+              <div class = "space-y-2">
+                  <h2 class = "font-bold">${element.title}</h2>
+                  <div class = "flex gap-2 space-y-2">
                       <p>${element.authors[0].profile_name}</p>
                       ${
                         element.authors[0].verified === true
-                          ? `<img class="w-5 h-5" src="../assets/verified-badge.png"/>`
+                          ? `<img class = "w-5 h-5" src="../assets/verified-badge.png"/>`
                           : ``
                       }
                   </div
                   <h4>${element.others.views}</h4>
               </div>
           </div>
+          <button 
+                  class = "btn btn-error w-1/3 mx-auto"  
+                  onclick = loadModalDetails("${element.video_id}")
+          >
+                  Details
+          </button>
     `;
     videoContainer.append(divCard);
   });
 };
 
-// 3rd : get time utility function===========================
+// 4th++ : showModalsDetailsData ===============================
+const showModalsDetailsData = (data) => {
+  console.log(data);
+  const modalContent = document.getElementById("modal-content");
+  modalContent.innerHTML = `
+        <img src = "${data.thumbnail}" class="h-48 w-full object-cover"/>
+        <h1 class = "font-bold text-2xl my-5">${data.title}</h1>
+        <p>${data.description.slice(0,200)}</p>
+  `;
+  // modal show way 01 by dom
+  // document.getElementById("modal-btn").click();
+  // modal show way 02 by daisy ui
+  document.getElementById("customModal").showModal();
+};
+
+// 2nd++ : get time utility function===========================
 function getTimeString(time) {
   // console.log(time);
   let remainingSeconds = time % 86400;
@@ -124,7 +155,7 @@ function getTimeString(time) {
   return `${days} days ${hours} hours ${minutes} minutes ${remainingSeconds} seconds ago`;
 }
 
-// 4th : removeActiveClass utility function====================
+// 3rd++ : removeActiveClass utility function====================
 function removeActiveClass() {
   const btns = document.getElementsByClassName("category-custom-btn");
   // console.log(btns);
