@@ -8,9 +8,9 @@ const loadCategories = () => {
 };
 
 // 2nd: loadVideos======================================
-const loadVideos = async () => {
+const loadVideos = async (searchText = "") => {
   const response = await fetch(
-    "https://openapi.programming-hero.com/api/phero-tube/videos"
+    `https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`
   );
   const data = await response.json();
   showVideosData(data.videos);
@@ -136,7 +136,7 @@ const showModalsDetailsData = (data) => {
   modalContent.innerHTML = `
         <img src = "${data.thumbnail}" class="h-48 w-full object-cover"/>
         <h1 class = "font-bold text-2xl my-5">${data.title}</h1>
-        <p>${data.description.slice(0,200)}</p>
+        <p>${data.description.slice(0, 200)}</p>
   `;
   // modal show way 01 by dom
   // document.getElementById("modal-btn").click();
@@ -164,6 +164,13 @@ function removeActiveClass() {
     btn.classList.remove("active");
   }
 }
+
+// 2nd++ : search input event listener
+const searchInput = document.getElementById("search-input");
+// console.log(searchInput);
+searchInput.addEventListener("keyup", (event) => {
+  loadVideos(event.target.value);
+});
 
 // final function invocation must do==========================
 loadCategories();
