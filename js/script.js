@@ -1,14 +1,13 @@
 console.log("connected");
 
-//1st: loadCategories
+//1st: loadCategories==========================================
 const loadCategories = () => {
   fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
     .then((res) => res.json())
-    .then((data) => showCategoriesData(data.categories))
-    .catch((error) => console.log(error));
+    .then((data) => showCategoriesData(data.categories));
 };
 
-// 2nd: loadVideos
+// 2nd: loadVideos======================================
 const loadVideos = async () => {
   const response = await fetch(
     "https://openapi.programming-hero.com/api/phero-tube/videos"
@@ -17,16 +16,21 @@ const loadVideos = async () => {
   showVideosData(data.videos);
 };
 
-// 3rd : loadVideosByCatId
+// 3rd : loadVideosByCatId===================================
 const loadVideosByCatId = (catId) => {
   // alert(catId);
   fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${catId}`)
     .then((res) => res.json())
-    .then((data) => showVideosData(data.category))
-    .catch((error) => console.log(error));
+    .then((data) => {
+      removeActiveClass();
+      const activeBtn = document.getElementById(`btn-${catId}`);
+      activeBtn.classList.add("active");
+      // console.log(activeBtn);
+      showVideosData(data.category);
+    });
 };
 
-//1st: showCategoriesData
+//1st: showCategoriesData========================================
 const showCategoriesData = (data) => {
   // console.log(data);
   const categoryBtnContainer = document.getElementById(
@@ -37,7 +41,11 @@ const showCategoriesData = (data) => {
     // create dynamic btn
     const btnDiv = document.createElement("div");
     btnDiv.innerHTML = `
-          <button class="btn" onclick="loadVideosByCatId(${item.category_id})">
+          <button
+                id="btn-${item.category_id}"
+                class="btn category-custom-btn" 
+                onclick="loadVideosByCatId(${item.category_id})"
+          >
             ${item.category}
           </button>
     `;
@@ -46,7 +54,7 @@ const showCategoriesData = (data) => {
   });
 };
 
-// 2nd : showVideosData
+// 2nd : showVideosData========================================
 const showVideosData = (data) => {
   // console.log(data);
   const videoContainer = document.getElementById("video-container");
@@ -105,7 +113,7 @@ const showVideosData = (data) => {
   });
 };
 
-// 3rd : get time utility function
+// 3rd : get time utility function===========================
 function getTimeString(time) {
   // console.log(time);
   let remainingSeconds = time % 86400;
@@ -116,6 +124,16 @@ function getTimeString(time) {
   return `${days} days ${hours} hours ${minutes} minutes ${remainingSeconds} seconds ago`;
 }
 
-// final function invocation
+// 4th : removeActiveClass utility function====================
+function removeActiveClass() {
+  const btns = document.getElementsByClassName("category-custom-btn");
+  // console.log(btns);
+  for (let btn of btns) {
+    // console.log(btn);
+    btn.classList.remove("active");
+  }
+}
+
+// final function invocation must do==========================
 loadCategories();
 loadVideos();

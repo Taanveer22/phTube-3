@@ -3,3 +3,8 @@
 .inter-google-font{
   font-family: "Inter", sans-serif;
 }
+
+.active{
+  background-color: red;
+  color: white;
+}
