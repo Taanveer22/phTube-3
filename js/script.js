@@ -17,6 +17,15 @@ const loadVideos = async () => {
   showVideosData(data.videos);
 };
 
+// 3rd : loadVideosByCatId
+const loadVideosByCatId = (catId) => {
+  // alert(catId);
+  fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${catId}`)
+    .then((res) => res.json())
+    .then((data) => showVideosData(data.category))
+    .catch((error) => console.log(error));
+};
+
 //1st: showCategoriesData
 const showCategoriesData = (data) => {
   // console.log(data);
@@ -26,10 +35,14 @@ const showCategoriesData = (data) => {
   data.forEach((item) => {
     // console.log(item);
     // create dynamic btn
-    const btn = document.createElement("button");
-    btn.classList = "btn";
-    btn.innerText = item.category;
-    categoryBtnContainer.append(btn);
+    const btnDiv = document.createElement("div");
+    btnDiv.innerHTML = `
+          <button class="btn" onclick="loadVideosByCatId(${item.category_id})">
+            ${item.category}
+          </button>
+    `;
+
+    categoryBtnContainer.append(btnDiv);
   });
 };
 
@@ -37,8 +50,23 @@ const showCategoriesData = (data) => {
 const showVideosData = (data) => {
   // console.log(data);
   const videoContainer = document.getElementById("video-container");
+  videoContainer.innerHTML = "";
+  if (data.length === 0) {
+    videoContainer.classList.remove("grid");
+    videoContainer.innerHTML = ` 
+        <div class="min-h-[500px] flex flex-col gap-10 
+                    justify-center items-center bg-gray-300">
+            <img src="../assets/Icon.png" class="bg-blue-300" />
+            <h3 class="bg-green-300 text-2xl font-bold">
+                oops!! sorry ... no content here
+            </h3>
+        </div>
+    `;
+  } else {
+    videoContainer.classList.add("grid");
+  }
   data.forEach((element) => {
-    console.log(element);
+    // console.log(element);
     // create dynamic video card
     const divCard = document.createElement("div");
     divCard.classList = "card bg-base-100 shadow-sm";
@@ -50,7 +78,7 @@ const showVideosData = (data) => {
                ${
                  element.others.posted_date.length === 0
                    ? ``
-                   : ` <span class="absolute right-2 bottom-2 bg-black text-white ">${getTimeString(
+                   : ` <span class="absolute right-2 bottom-2 bg-black text-white text-xs p-1">${getTimeString(
                        element.others.posted_date
                      )}</span>`
                }
