@@ -73,8 +73,8 @@ const showVideosData = (data) => {
     videoContainer.classList.remove("grid");
     videoContainer.innerHTML = ` 
         <div class = "min-h-[500px] flex flex-col gap-10 
-                    justify-center items-center bg-gray-300">
-            <img src = "../assets/Icon.png" class="bg-blue-300" />
+                    justify-center items-center">
+            <img src = "../assets/Icon.png" />
             <h3 class = "bg-green-300 text-2xl font-bold">
                 oops!! sorry ... no content here
             </h3>
